@@ -1,0 +1,49 @@
+.index-style {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.task-list {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    max-height: 1000px;
+    overflow-y: auto;
+}
+
+.task-elem {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.task-elem:hover {
+    background-color: #f0f0f0;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+.hover-effect {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+}
+
+.index-image {
+    width: 150px;
+    height: 150px;
+}

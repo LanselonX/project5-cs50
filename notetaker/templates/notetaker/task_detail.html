@@ -1,0 +1,93 @@
+{% extends "notetaker/layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="page-header">
+      <h3>Task detail for team {{ team.name }}: </h3>
+      <div>
+      <a href="{% url 'create_team_task' team.id %}" class="btn btn-primary"> 
+        <i class="bi bi-cup-hot me-2"></i>Create Team Task
+      </a>
+      {% if user == team.team_author %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="bi bi-person-plus me-2"></i>Invite to Team
+        </button>
+      {% endif %}
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-invitation-link">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="copy-btn">Copy</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" id="task-container">
+        <div class="row">
+          <div class="col-md-4">
+            <h3>List</h3>
+            <div class="task-list">
+              {% for task in tasks_todo %}
+                <div class="task-elem" data-task-id="{{ task.id }}">
+                  {{ task.title }}
+                </div>
+              {% empty %}
+                <p>Empty</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <h3>In Progress</h3>
+            <div class="task-list">
+              {% for task in tasks_in_progress %}
+              <div class="task-elem d-flex justify-content-between" data-task-id="{{ task.id }}">
+                {{ task.title }}
+                <button class="btn btn-success btn-sm mark-done">Done</button>
+              </div>
+              {% empty %}
+                <p>Empty</p>
+              {% endfor %}
+            </div>
+
+          </div>
+          <div class="col-md-4">
+            <h3>Done</h3>
+            <div class="task-list">
+              {% for task in tasks_done %}
+                <div class="task-elem d-flex justify-content-between" data-task-id="{{ task.id }}">
+                  {{ task.title }}
+                  <button class="btn btn-danger btn-sm delete-task">Delete</button>
+                </div>
+              {% empty %}
+                <p>Empty</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <div id="task-info" style="display: none;"></div>
+    <div id="members-options" style="display: none;">
+      {% for member in team.member.all %}
+        <option value="{{ member.id }}">{{ member.username }}</option>
+      {% endfor %}
+    </div>
+
+    <script>
+      const createInvitationUrl = "{% url 'create_invitation' team.id %}"
+      const teamId = '{{ team.id }}'
+    </script>
+    <script type="module" src="{% static 'js/task_detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "notetaker/layout.html" %}
+{% load static %}
+{% block body %}
+
+{% if user_tasks or team_tasks %}
+<div class="page-header">
+    <h3>Tasks Info: </h3>
+    <div>
+        <a href="{% url 'create' %}" class="btn btn-primary">
+            <i class="bi bi-journal-plus me-2"></i>Create Solo Task
+        </a>
+    </div>
+</div>
+<div class="container my-5" id="main-container">
+    {% if user_tasks %}
+    <h3 class="mb-4">Your Tasks</h3>
+    <div id="user-task-div" class="row">
+        {% for task in user_tasks %}
+        <div class="col-md-6 col-lg-4 mb-4" id="card-info">
+            <div class="card h-100 shadow-sm" data-task-id="{{ task.id }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ task.title }}</h5>
+                    <p class="card-text">{{ task.description }}</p>
+                </div>
+                <div class="card-footer" data-task-id="{{ task.id }}">
+                    <a href="{% url 'edit_task' task.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm delete-task">Delete</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>No tasks yet</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if team_tasks %}
+    <h3 class="mb-4 mt-5">Team Tasks</h3>
+    <div id="team-task-div" class="row team-container">
+        {% for task in team_tasks %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-task-id="{{ task.id }}" data-team-id="{{ task.team.id }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ task.title }}</h5>
+                    <p class="card-text">{{ task.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="badge bg-primary">{{ task.team.name }}</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-muted">No tasks yet</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="container my-5">
+    <div class="text-center">
+        <h3>You have no tasks yet</h3>
+        <p>Click the button below to create your first task</p>
+        <a href="{% url 'create' %}" class="btn btn-primary btn-lg mt-3">
+            Create Solo Task!
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<div id="index-info" style="display: none;"></div>
+
+<script type="module" src="{% static 'js/index.js' %}"></script>
+{% endblock %}
