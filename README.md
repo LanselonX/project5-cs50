@@ -2,9 +2,13 @@
 
 This is a task management web application based on django. The project is designed to simplify the organization of personal and team tasks. This application allows you to manage teams and invite new members using unique links.
 
-Notetaker stands out by integrating both individual and collaborative task management in one solution.
+Unlike the task-related features seen in other projects such as Project 2 (Commerce) or Project 4 (Social Network), Notetaker integrates team-based functionality with real-time updates and role-specific task flows, elevating its complexity and scope. One of the core elements that makes Notetaker distinct is the team invitation system using UUID-based tokens, allowing users to join teams through secure, links. This mechanism involved implementing a custom Invitation model, token generation, expiration handling, and validation on the backend — a feature not seen in any course project example.
 
-The implementation of Notetaker required careful design of the architecture, which combines server logic, and client scripts. The complexity of the project lies in the need to ensure the correct interaction of various components
+Another layer of complexity lies in the assignment and delegation of tasks within teams. The application supports enforces permissions, such as restricting who can delete a team. These features required careful management of user-to-task and user-to-team relationships, with logic that adapts depending on who performs an action.
+
+On the frontend, the app uses asynchronous JavaScript (AJAX) to provide a seamless user experience: team task statuses are updated live, tasks can be marked as done or reassigned without full-page reloads, and image previews are dynamically displayed when uploading files. This interactive experience required building custom endpoints that respond with JSON data and coordinating Django views with JavaScript logic.
+
+Notetaker is also built with scalability in mind: all views are paginated where needed, and the layout is fully responsive, ensuring usability on mobile devices. This goes beyond the design scope of earlier course projects. Overall, the combination of dynamic user roles, secure invitation flows, rich client-side interaction, and scalable architecture makes Notetaker both distinct and technically challenging.
 
 ### Unique Features
 
@@ -56,7 +60,7 @@ At the moment, this module includes **19 view functions**. Below is a brief desc
 
 - `leave_team` - the function is needed so that the user can exit the team, _the team leader cannot leave the team_
 
-- `assign_task` - allows to assign a selected team task to a user
+- `assign_task` - allows assigning a selected team task to a user
 
 - `create_team_task` - creates a team task, _only team members can create such tasks_
 
@@ -66,7 +70,7 @@ At the moment, this module includes **19 view functions**. Below is a brief desc
 
 - `task_detail_api` - serves to describe the team's task in detail
 
-- `create_team` - the function is needed to create a command
+- `create_team` - the function is needed to create a team
 
 ### 3. **urls.py** Defines routes including index:
 
@@ -106,7 +110,13 @@ At the moment, this module includes **19 view functions**. Below is a brief desc
 
 - `/team/<int:team_id>/delete/`
 
-### 4. **Static files and scripts** Responsible for client logic, asynchronous requests and dynamic updating of the user interface
+### 4. **forms.py**
+
+- `AddTasksForm` - Form for creating personal and team tasks. Uses ModelForm to automatically distribute fields based on the Task model. Widgets are customized to better display clients.
+
+- `AddTeamForm` - Form for creating a team, includes `name` and `image` fields, styled with Bootstrap-like classes.
+
+### 5. **Static files and scripts** Responsible for client logic, asynchronous requests and dynamic updating of the user interface
 
 ### **JavaScript**
 
@@ -152,10 +162,30 @@ there are **10 files** here for dynamic page generation
 
 ## How to launch the application
 
-**Clone the repository**
+1. **Clone the repository**
 
-**Installing dependencies:** `pip install -r requirements.txt`
+```bash
+git clone <repo_url>
+```
 
-**Apply migrations** `python manage.py makemigrations notetaker` and `python manage.py migrate`
+2. **Installing dependencies:**
 
-**Start the development server** `python manage.py runserver`
+```bash
+pip install -r requirements.txt
+```
+
+3. **Apply migrations**
+
+```bash
+python manage.py makemigrations notetaker
+```
+
+```bash
+python manage.py migrate
+```
+
+4. **Start the development server**
+
+```bash
+python manage.py runserver
+```
