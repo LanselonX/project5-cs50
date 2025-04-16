@@ -160,6 +160,15 @@ there are **10 files** here for dynamic page generation
 
 - `teams.html` - page displaying user team
 
+### Used Libraries and Dependencies:
+
+- `Django==5.1.5` - the main framework of the project
+- `pillow==11.0.0` - image library (downloads/previews)
+- `pytz==2024.2` - working with time zones
+- `tzdata==2024.2` - Current time zone data
+
+**See full list in** [`requirements.txt`](./requirements.txt)
+
 ## How to launch the application
 
 1. **Clone the repository**
